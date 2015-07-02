@@ -1,6 +1,8 @@
 //Quote page 1
-window.location="http://csi.learninga-z.com/index.php?module=GenerateQuote";  //only necessary for full automation
-$j("#username").val("jgreenland");
+window.location="http://csi.learninga-z.com/index.php?module=GenerateQuote"; //only necessary for full automation
+
+var user = window.prompt("Please enter the username.","");
+$j("#username").val(user);
 $j("input[name='action']").click(); //Go to next page
 
 
@@ -27,27 +29,43 @@ var raz_exp_date = $j("table table tr:nth-child(3) td:nth-child(3)").text().trim
 //Validate date objects
     if(isNaN(raz_exp)==false){
       all_dates.push(new Date(raz_exp));
+      $j("#raz_actionmenu").val("renew");
+      $j("#raz_yearduration").val("1 year");
     }
     if(isNaN(rk_exp)==false){
       all_dates.push(new Date(rk_exp));
+      $j("#rk_actionmenu").val("renew");
+      $j("#rk_yearduration").val("1 year");
     }
     if(isNaN(ell_exp)==false){
       all_dates.push(new Date(ell_exp));
+      $j("#raz-ell_actionmenu").val("renew");
+      $j("#raz-ell_yearduration").val("1 year");
     }
     if(isNaN(hs_exp)==false){
       all_dates.push(new Date(hs_exp));
+      $j("#headsprout_actionmenu").val("renew");
+      $j("#headsprout_yearduration").val("1 year");
     }
     if(isNaN(saz_exp)==false){
       all_dates.push(new Date(saz_exp));
+      $j("#saz_actionmenu").val("renew");
+      $j("#saz_yearduration").val("1 year");
     }
     if(isNaN(waz_exp)==false){
       all_dates.push(new Date(waz_exp));
+      $j("#waz_actionmenu").val("renew");
+      $j("#waz_yearduration").val("1 year");
     }
     if(isNaN(vaz_exp)==false){
       all_dates.push(new Date(vaz_exp));
+      $j("#vocab_actionmenu").val("renew");
+      $j("#vocab_yearduration").val("1 year");
     }
     if(isNaN(rt_exp)==false){
       all_dates.push(new Date(rt_exp));
+      $j("#tr_actionmenu").val("renew");
+      $j("#tr_yearduration").val("1 year");
     }
 
 var last_exp = new Date(Math.min.apply(null,all_dates)); //Get earliest expiration date
@@ -64,39 +82,8 @@ function FormatDate(date){
 
 var valid_date = FormatDate(last_exp); //Correctly formatted date for CSI field
 
-//Select renew and 1 year for each product with an expiration date
-if(raz_exp_date != "--"){
-  $j("#raz_actionmenu").val("renew");
-  $j("#raz_yearduration").val("1 year");
-}
-if(rk_exp_date != "--"){
-  $j("#rk_actionmenu").val("renew");
-  $j("#rk_yearduration").val("1 year");
-}
-if(ell_exp_date != "--"){
-  $j("#raz-ell_actionmenu").val("renew");
-  $j("#raz-ell_yearduration").val("1 year");
-}
-if(hs_exp_date != "--"){
-  $j("#headsprout_actionmenu").val("renew");
-  $j("#headsprout_yearduration").val("1 year");
-}
-if(saz_exp_date != "--"){
-  $j("#saz_actionmenu").val("renew");
-  $j("#saz_yearduration").val("1 year");
-}
-if(waz_exp_date != "--"){
-  $j("#waz_actionmenu").val("renew");
-  $j("#waz_yearduration").val("1 year");
-}
-if(vaz_exp_date != "--"){
-  $j("#vocab_actionmenu").val("renew");
-  $j("#vocab_yearduration").val("1 year");
-}
-if(rt_exp_date != "--"){
-  $j("#tr_actionmenu").val("renew");
-  $j("#tr_yearduration").val("1 year");
-}
+sessionStorage.setItem("valid-date",valid_date);
+
 //If I ever get around to it, insert code for coupon codes here
 $j("input[name='action']").click(); //Go to next page
 
@@ -105,7 +92,8 @@ $j("input[name='action']").click(); //Go to next page
 $j("input[name='action']").eq(2).click();
 
 
-//Edit quote page
+//Edit quote (Page 4)
 //Multiyear script here
+var last_exp = sessionStorage.getItem("valid-date");
 $j("#lightwindow_iframe").contents().find("#valid_through").prop('value',last_exp);
-$j(#lightwindow_iframe").contents().find("input[name='action']").click();
+$j("#lightwindow_iframe").contents().find("input[name='action']").click();
